@@ -1,0 +1,22 @@
+# Railway deployment config.
+# https://docs.railway.app/reference/config-as-code
+#
+# This file is read when Railway builds & deploys the planner.
+# It overrides Railway's auto-detection where needed.
+
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+# Railway sets $PORT — uvicorn binds to it. 0.0.0.0 is required for the
+# container to be reachable from outside.
+startCommand = "uvicorn server:app --host 0.0.0.0 --port $PORT"
+
+# Health check: hit the root endpoint after deploy to confirm the server
+# is up. If the GET / fails 3 times, the deploy is marked failed.
+healthcheckPath = "/"
+healthcheckTimeout = 30
+
+# Restart on crash. Useful if a bad request takes down a worker.
+restartPolicyType = "ON_FAILURE"
+restartPolicyMaxRetries = 3

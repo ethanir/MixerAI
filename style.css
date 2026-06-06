@@ -1,0 +1,918 @@
+* {
+  box-sizing: border-box;
+}
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+/* ----- App shell -----
+ * Full-viewport, no scroll on the panel itself. The task area at the bottom
+ * grows to fill remaining space and stays anchored — so the Plan button is
+ * always at the very bottom without scrolling.
+ */
+.app {
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Inter",
+    "Segoe UI",
+    sans-serif;
+  background: #0a0a0a;
+  color: #f4f4f5;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  line-height: 1.45;
+  overflow: hidden;
+}
+
+/* ----- Header (brand only) ----- */
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid #1f1f23;
+  flex-shrink: 0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.header-refresh {
+  background: none;
+  border: none;
+  color: #71717a;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s, transform 0.3s;
+}
+.header-refresh:hover {
+  color: #5eead4;
+}
+.header-refresh:active svg {
+  transform: rotate(180deg);
+}
+
+.logo {
+  width: 18px;
+  height: 18px;
+  color: #f4f4f5;
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+/* ----- Sections ----- */
+
+.section {
+  padding: 10px 14px;
+  border-bottom: 1px solid #1f1f23;
+  flex-shrink: 0;
+}
+
+.section-tight {
+  padding: 9px 14px;
+}
+
+.section-label {
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #71717a;
+  margin: 0 0 6px 0;
+  font-weight: 500;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.section-head .section-label {
+  margin-bottom: 0;
+}
+
+/* ----- Edit / Save buttons ----- */
+
+.edit-btn,
+.save-btn {
+  background: none;
+  border: 1px solid transparent;
+  font-size: 10.5px;
+  font-family: inherit;
+  cursor: pointer;
+  padding: 2px 9px;
+  border-radius: 4px;
+  transition: all 0.12s;
+}
+
+.edit-btn {
+  color: #71717a;
+}
+.edit-btn:hover {
+  color: #d4d4d8;
+  border-color: #27272a;
+}
+
+.save-btn {
+  color: #5eead4;
+  border-color: rgba(94, 234, 212, 0.5);
+}
+.save-btn:hover {
+  background: rgba(94, 234, 212, 0.12);
+  border-color: #5eead4;
+}
+
+.edit-actions,
+.inline-actions {
+  display: flex;
+  gap: 4px;
+}
+
+/* ----- Unlock flow ----- */
+
+.unlock-row {
+  align-items: center;
+}
+
+.unlock-input {
+  background: rgba(39, 39, 42, 0.55);
+  border: 1px solid #27272a;
+  color: #d4d4d8;
+  font-family: inherit;
+  font-size: 10.5px;
+  padding: 3px 7px;
+  border-radius: 4px;
+  width: 100px;
+  outline: none;
+  transition: border-color 0.12s;
+}
+
+.unlock-input:focus {
+  border-color: #5eead4;
+}
+
+.unlock-error {
+  color: #fb7185;
+  font-size: 10.5px;
+  margin: 4px 0 0 0;
+  padding: 0;
+}
+
+/* ----- Connection rows ----- */
+
+.service-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3.5px 0;
+}
+
+.service-name {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.dot-signed-in {
+  background: #10b981;
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.15);
+}
+.dot-signed-out {
+  background: #f59e0b;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.15);
+}
+.dot-rate-limited {
+  background: #f97316;
+  box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.15);
+}
+.dot-unknown {
+  background: #52525b;
+}
+
+.service-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.status-text {
+  font-size: 11px;
+  color: #71717a;
+}
+
+.open-link {
+  background: none;
+  border: none;
+  color: #5eead4;
+  font-size: 11px;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 3px;
+  transition: color 0.15s;
+}
+.open-link:hover {
+  color: #e5b78f;
+}
+
+.open-all-btn {
+  margin-top: 7px;
+  width: 100%;
+  padding: 6px;
+  background: transparent;
+  border: 1px dashed #3f3f46;
+  border-radius: 6px;
+  color: #a1a1aa;
+  font-size: 11px;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.open-all-btn:hover {
+  border-color: #5eead4;
+  color: #5eead4;
+}
+
+/* ----- Task area -----
+ * The task-area-flex wrapper fills the remaining vertical space below
+ * the configuration sections. Two layout modes:
+ *
+ *  (1) Idle phase (with task input): the textarea grows to fill space,
+ *      keeping the Plan-task button snug underneath. No blank gap.
+ *
+ *  (2) Plan-ready / Complete / Error phases (with multiple stacked
+ *      children): the action row (`button-row`) gets `margin-top: auto`
+ *      to pin to the bottom regardless of content above.
+ */
+
+.task-area {
+  padding: 12px 14px;
+  flex-shrink: 0;
+}
+
+.task-area-flex {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding-bottom: 12px;
+}
+
+/* Stretch the task input to fill available space in the idle phase so
+   the Plan-task button sits directly below — no awkward blank space.
+   A bigger textarea is a feature: the user sees more of their prompt
+   without scrolling. */
+.task-area-flex > .task-input {
+  flex: 1 1 auto;
+  min-height: 100px;
+}
+
+/* Pin action rows to the bottom in plan-ready / complete / error phases. */
+.task-area-flex > .button-row {
+  margin-top: auto;
+}
+
+.task-input {
+  width: 100%;
+  background: #131316;
+  border: 1px solid #1f1f23;
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: #f4f4f5;
+  font-size: 13px;
+  font-family: inherit;
+  line-height: 1.5;
+  resize: none;
+  outline: none;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.task-input::placeholder {
+  color: #52525b;
+}
+.task-input:focus {
+  border-color: rgba(94, 234, 212, 0.5);
+  box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.12);
+}
+
+.gate-hint {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: #f59e0b;
+  line-height: 1.45;
+}
+
+.plan-btn {
+  margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  background: #5eead4;
+  border: none;
+  border-radius: 8px;
+  color: #0a0a0a;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.plan-btn:hover:not(:disabled) {
+  background: #e5b78f;
+}
+.plan-btn:disabled {
+  background: #131316;
+  color: #52525b;
+  cursor: not-allowed;
+}
+
+.secondary-btn {
+  margin-top: 10px;
+  flex: 1;
+  padding: 10px;
+  background: #131316;
+  border: 1px solid #27272a;
+  border-radius: 8px;
+  color: #d4d4d8;
+  font-weight: 500;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.secondary-btn:hover {
+  background: #18181b;
+  border-color: #3f3f46;
+}
+
+.button-row {
+  display: flex;
+  gap: 8px;
+}
+.button-row .plan-btn,
+.button-row .secondary-btn {
+  flex: 1;
+  margin-top: 0;
+}
+
+/* ----- Plan card ----- */
+
+.plan-card {
+  background: #131316;
+  border: 1px solid #1f1f23;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.plan-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.badge {
+  display: inline-block;
+  font-size: 9.5px;
+  padding: 2.5px 7px;
+  border-radius: 999px;
+  background: rgba(94, 234, 212, 0.12);
+  color: #5eead4;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.badge-muted {
+  background: #18181b;
+  color: #71717a;
+}
+
+/* ----- Pipeline diagram in plan card ----- */
+
+.plan-pipeline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 10px 0 12px;
+  border-top: 1px solid #1f1f23;
+  border-bottom: 1px solid #1f1f23;
+  margin: 6px 0 10px;
+}
+
+.pipeline-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.pipeline-stage-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #52525b;
+  font-weight: 500;
+}
+
+.pipeline-services {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.pipeline-chip {
+  display: inline-block;
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  background: #18181b;
+  border: 1px solid #27272a;
+  color: #d4d4d8;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.pipeline-chip-strong {
+  background: rgba(94, 234, 212, 0.08);
+  border-color: rgba(94, 234, 212, 0.35);
+  color: #5eead4;
+}
+
+.pipeline-arrow {
+  color: #3f3f46;
+  font-size: 14px;
+  flex-shrink: 0;
+  align-self: center;
+  padding-top: 12px;
+}
+
+.plan-format {
+  font-size: 12px;
+  color: #d4d4d8;
+  font-style: italic;
+  line-height: 1.5;
+  padding: 8px 10px;
+  background: #0a0a0a;
+  border-left: 2px solid #5eead4;
+  border-radius: 0 4px 4px 0;
+}
+
+.upsell {
+  margin-top: 10px;
+  padding: 8px 10px;
+  background: rgba(229, 183, 143, 0.06);
+  border: 1px solid rgba(229, 183, 143, 0.2);
+  border-radius: 6px;
+  font-size: 11px;
+  color: #e5b78f;
+  line-height: 1.45;
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.upsell-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #e5b78f;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+.task-prompt-preview {
+  margin-top: 10px;
+}
+
+.task-prompt-text {
+  font-size: 12px;
+  color: #d4d4d8;
+  margin: 0;
+  padding: 8px 10px;
+  background: #131316;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: 80px;
+  overflow-y: auto;
+}
+
+/* ----- Status banner ----- */
+
+.status-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: #131316;
+  border: 1px solid #1f1f23;
+  border-radius: 8px;
+  color: #a1a1aa;
+  font-size: 13px;
+}
+
+.error-banner {
+  padding: 12px;
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 8px;
+  color: #fca5a5;
+  font-size: 12px;
+}
+.error-banner strong {
+  display: block;
+  margin-bottom: 4px;
+  color: #fecaca;
+}
+.error-banner p {
+  margin: 0;
+}
+
+/* ----- Spinner ----- */
+
+.spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #3f3f46;
+  border-top-color: #5eead4;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+.spinner-sm {
+  width: 11px;
+  height: 11px;
+  border-width: 2px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ----- Progress rows ----- */
+
+.progress-list {
+  background: #131316;
+  border: 1px solid #1f1f23;
+  border-radius: 8px;
+  padding: 4px 0;
+}
+
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 7px 14px;
+  font-size: 12px;
+}
+
+.progress-row-wrap {
+  display: block;
+}
+
+.progress-divider {
+  height: 1px;
+  background: #1f1f23;
+  margin: 4px 14px;
+}
+
+.progress-error {
+  margin: -4px 14px 6px 38px;
+  padding: 6px 9px;
+  background: rgba(239, 68, 68, 0.08);
+  border-left: 2px solid #ef4444;
+  border-radius: 3px;
+  color: #fca5a5;
+  font-size: 10.5px;
+  font-family: "JetBrains Mono", monospace;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+.progress-label {
+  flex: 1;
+  color: #f4f4f5;
+}
+
+.progress-state {
+  font-size: 11px;
+  color: #71717a;
+}
+
+/* ----- Check button -----
+ * Small "↗" affordance that appears next to a running service row.
+ * Clicking opens the corresponding AI tab in the foreground so the
+ * user can peek if they want. Designed to be inviting but not
+ * distracting — same height as a state label, soft borderless feel.
+ *
+ * When the service has been running for 60+ seconds, the row gets
+ * the `.progress-row-delayed` class which gives the check button a
+ * subtle teal pulse to draw the eye without screaming for attention.
+ */
+.check-btn {
+  background: transparent;
+  border: 1px solid #27272a;
+  color: #a1a1aa;
+  border-radius: 6px;
+  font-size: 11px;
+  line-height: 1;
+  padding: 3px 7px;
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    color 0.15s;
+}
+.check-btn:hover {
+  background: rgba(94, 234, 212, 0.08);
+  border-color: rgba(94, 234, 212, 0.4);
+  color: #5eead4;
+}
+
+.progress-row-delayed .check-btn {
+  border-color: rgba(94, 234, 212, 0.45);
+  color: #5eead4;
+  animation: check-btn-pulse 2.4s ease-in-out infinite;
+}
+.progress-row-delayed .progress-state {
+  color: #5eead4;
+}
+
+@keyframes check-btn-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(94, 234, 212, 0);
+  }
+  50% {
+    box-shadow: 0 0 0 3px rgba(94, 234, 212, 0.18);
+  }
+}
+
+/* Helper text below the progress list. Quiet by default; the arrow
+   glyph picks up the teal accent so the visual pairing with the
+   actual button is immediate. */
+.progress-hint {
+  margin: 12px 4px 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #71717a;
+}
+.progress-hint-icon {
+  display: inline-block;
+  padding: 0 4px;
+  border: 1px solid #27272a;
+  border-radius: 4px;
+  color: #a1a1aa;
+  font-size: 10px;
+  line-height: 1.5;
+  vertical-align: 1px;
+}
+
+.check-icon {
+  color: #10b981;
+  font-weight: 600;
+  font-size: 14px;
+  width: 11px;
+  text-align: center;
+}
+
+.fail-icon {
+  color: #ef4444;
+  font-weight: 600;
+  font-size: 16px;
+  width: 11px;
+  text-align: center;
+}
+
+.pending-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3f3f46;
+  display: inline-block;
+}
+
+/* ----- Result view (Done) ----- */
+
+.result-done {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  background: rgba(94, 234, 212, 0.06);
+  border: 1px solid rgba(94, 234, 212, 0.25);
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.result-done-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #5eead4;
+  color: #0a0a0a;
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.result-done-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.result-done-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #f4f4f5;
+  letter-spacing: 0.2px;
+}
+
+.result-done-sub {
+  font-size: 12px;
+  color: #a1a1aa;
+  line-height: 1.4;
+}
+
+.result-failures {
+  font-size: 11px;
+  color: #71717a;
+  padding: 6px 14px;
+  margin-bottom: 10px;
+  font-family: "JetBrains Mono", monospace;
+}
+
+/* ----- Subscriptions ----- */
+
+.sub-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  gap: 8px;
+}
+
+.sub-name {
+  font-size: 12px;
+  color: #d4d4d8;
+  flex-shrink: 0;
+  min-width: 64px;
+}
+
+.pill-group-wrap {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.pill-group {
+  display: flex;
+  gap: 3px;
+}
+
+.pill {
+  background: transparent;
+  border: 1px solid #27272a;
+  color: #71717a;
+  padding: 2.5px 8.5px;
+  font-size: 10.5px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.12s;
+}
+
+.pill:hover:not(:disabled):not(.pill-active):not(.pill-pending) {
+  border-color: #3f3f46;
+  color: #d4d4d8;
+}
+
+/* Committed/saved state — teal */
+.pill-active {
+  background: #5eead4;
+  border-color: #5eead4;
+  color: #0a0a0a;
+  font-weight: 500;
+}
+
+/* Editing-mode, previously-active but user hasn't picked anything new yet —
+ * gray, signaling "this was the selection but you're in edit mode" */
+.pill-was-active {
+  background: transparent;
+  border-color: #3f3f46;
+  color: #a1a1aa;
+}
+
+/* Editing-mode, this pill is the pending choice (not yet saved) */
+.pill-pending {
+  background: rgba(94, 234, 212, 0.15);
+  border-color: rgba(94, 234, 212, 0.6);
+  color: #5eead4;
+  font-weight: 500;
+}
+
+.pill:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+/* ----- MixerAI Plan tier selector ----- */
+
+.tier-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.tier {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: transparent;
+  border: 1px solid #27272a;
+  color: #71717a;
+  padding: 7px 5px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.12s;
+}
+
+.tier:hover:not(:disabled):not(.tier-active):not(.tier-pending) {
+  border-color: #3f3f46;
+  color: #d4d4d8;
+}
+
+.tier-active {
+  background: rgba(94, 234, 212, 0.08);
+  border-color: #5eead4;
+  color: #5eead4;
+}
+
+.tier-pending {
+  background: rgba(94, 234, 212, 0.15);
+  border-color: rgba(94, 234, 212, 0.6);
+  color: #5eead4;
+}
+
+.tier-was-active {
+  background: transparent;
+  border-color: #3f3f46;
+  color: #a1a1aa;
+}
+
+.tier:disabled {
+  cursor: default;
+}
+
+.tier-label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.tier-sub {
+  font-size: 9.5px;
+  color: inherit;
+  opacity: 0.65;
+  font-family: "JetBrains Mono", monospace;
+}

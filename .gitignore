@@ -1,0 +1,9 @@
+node_modules/
+build/
+.plasmo/
+.env*
+!.env.example
+*.log
+.DS_Store
+planner/.venv/
+planner/__pycache__/

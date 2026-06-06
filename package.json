@@ -1,0 +1,46 @@
+{
+  "name": "mixerai-extension",
+  "displayName": "MixerAI",
+  "version": "1.6.8",
+  "description": "Mixture-of-Agents orchestration for your existing AI subscriptions",
+  "author": "Ethan",
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "plasmo build",
+    "package": "plasmo package"
+  },
+  "dependencies": {
+    "plasmo": "0.90.5",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@types/chrome": "0.0.270",
+    "@types/node": "20.14.0",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "prettier": "3.3.3",
+    "typescript": "5.5.3"
+  },
+  "manifest": {
+    "permissions": [
+      "tabs",
+      "storage",
+      "sidePanel",
+      "scripting",
+      "alarms"
+    ],
+    "host_permissions": [
+      "http://localhost:8000/*",
+      "https://*.railway.app/*",
+      "https://*.up.railway.app/*",
+      "https://chatgpt.com/*",
+      "https://chat.openai.com/*",
+      "https://claude.ai/*",
+      "https://gemini.google.com/*"
+    ],
+    "action": {
+      "default_title": "MixerAI"
+    }
+  }
+}
